@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres
+    container_name: mente_sa_bd
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mente_sa
+    volumes:
+      - pgdata:/data/postgres
+    network_mode: host
+
+  back:
+    depends_on:
+      - db
+    build: 
+      context: ./back
+      dockerfile: Dockerfile
+    container_name: mente_sa_back
+    ports:
+      - 3333:3333
+    volumes:
+      - .:/usr/app
+    network_mode: host
+  
+  front:
+    depends_on:
+      - back
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: mente_sa_front
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/app
+    network_mode: host
+
+volumes:
+  pgdata:
+    driver: local
