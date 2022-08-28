@@ -12,6 +12,6 @@ O servidor de desenvolvimento está configurado para rodar com docker e docker-c
 
 ### Portas
 
-**DB**: localhost:5442\
+**DB**: localhost:5432\
 **Back**: localhost:3333\
 **Front**: localhost:3000
