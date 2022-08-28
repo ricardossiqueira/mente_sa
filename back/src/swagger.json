@@ -1,0 +1,53 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Mente Sã Documentation",
+    "description": "API Documentation",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/professional": {
+      "post": {
+        "tags": ["Specification"],
+        "summary": "Create Professional",
+        "description": "Create a new professional",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Professional"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Professional": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "crp": {
+          "type": "string"
+        },
+        "approach": {
+          "type": "string"
+        },
+        "contact": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
