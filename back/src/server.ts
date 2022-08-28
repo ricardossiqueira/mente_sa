@@ -4,6 +4,7 @@ import "reflect-metadata";
 import "express-async-errors";
 import helmet from "helmet";
 import compression from "compression";
+import cors from "cors";
 
 // import injection config from tsyringe
 import "./shared/container";
@@ -14,6 +15,9 @@ import { traverseErrors } from "./middlewares/traverseErrors";
 const PORT = process.env.PORT || 3333;
 
 const app = express();
+
+// allow cors
+app.use(cors({ origin: "*" }));
 
 app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
