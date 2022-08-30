@@ -12,11 +12,23 @@ datasource db {
 }
 
 model Professional {
-  id        String   @id @default(uuid())
-  name      String
-  crp       String
-  approach  String
-  contact   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                 String              @id @default(uuid())
+  name               String
+  email              String              @unique
+  password           String
+  crp                String?
+  approach           String?
+  contact            String?
+  professionalTokens ProfessionalTokens?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+}
+
+model ProfessionalTokens {
+  id             String       @id @default(uuid())
+  token          String       @unique
+  professional   Professional @relation(fields: [professionalId], references: [id])
+  professionalId String       @unique
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }

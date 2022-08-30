@@ -3,17 +3,18 @@ import { ICreateProfessionalDTO } from "../dto/IProfessionalDTO";
 class Professional {
   id?: string;
   name: string;
-  crp: string;
-  approach: string;
-  contact: string;
+  password: string;
+  email: string;
+  crp!: string | null;
+  approach!: string | null;
+  contact!: string | null;
   createdAt?: Date;
   updatedAt?: Date;
 
-  constructor({ name, approach, contact, crp }: ICreateProfessionalDTO) {
+  constructor({ name, email, password }: ICreateProfessionalDTO) {
     this.name = name;
-    this.approach = approach;
-    this.contact = contact;
-    this.crp = crp;
+    this.password = password;
+    this.email = email;
   }
 }
 

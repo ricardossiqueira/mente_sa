@@ -3,7 +3,8 @@ import { Professional } from "../entities/Professional";
 
 interface IProfessionalRepository {
   create(data: ICreateProfessionalDTO): Promise<void>;
-  list(): Promise<Professional[]>;
+  findById(id: string): Promise<Professional | null>;
+  findByEmail(email: string): Promise<Professional | null>;
 }
 
 export { IProfessionalRepository };

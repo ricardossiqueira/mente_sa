@@ -6,7 +6,7 @@ import { CreateProfessionalUseCase } from "./CreateProfessionalUseCase";
 
 class CreateProfessionalController {
   async handle(req: Request, res: Response): Promise<Response> {
-    const { name, approach, contact, crp }: ICreateProfessionalDTO = req.body;
+    const { name, password, email }: ICreateProfessionalDTO = req.body;
 
     const createProfessionalUseCase = container.resolve(
       CreateProfessionalUseCase
@@ -14,9 +14,8 @@ class CreateProfessionalController {
 
     await createProfessionalUseCase.execute({
       name,
-      approach,
-      crp,
-      contact,
+      password,
+      email,
     });
 
     return res.status(201).send();

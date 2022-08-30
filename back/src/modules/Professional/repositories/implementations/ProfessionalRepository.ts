@@ -17,8 +17,14 @@ class ProfessionalRepository implements IProfessionalRepository {
     await this.repository.create({ data });
   }
 
-  async list(): Promise<Professional[]> {
-    return await this.repository.findMany();
+  async findById(id: string): Promise<Professional | null> {
+    return await this.repository.findFirst({
+      where: { id },
+    });
+  }
+
+  async findByEmail(email: string): Promise<Professional | null> {
+    return await this.repository.findFirst({ where: { email } });
   }
 }
 

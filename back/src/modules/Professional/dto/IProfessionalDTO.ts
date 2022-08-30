@@ -1,8 +1,7 @@
 interface ICreateProfessionalDTO {
   name: string;
-  crp: string;
-  approach: string;
-  contact: string;
+  email: string;
+  password: string;
 }
 
 export { ICreateProfessionalDTO };
