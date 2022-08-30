@@ -8,7 +8,7 @@
   "paths": {
     "/professional": {
       "post": {
-        "tags": ["Specification"],
+        "tags": ["Professional"],
         "summary": "Create Professional",
         "description": "Create a new professional",
         "requestBody": {
@@ -16,6 +16,49 @@
             "application/json": {
               "schema": {
                 "$ref": "#/definitions/Professional"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid password"
+          },
+          "409": {
+            "description": "Email already exists"
+          },
+          "422": {
+            "description": "Invalid email"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/professional/auth": {
+      "post": {
+        "tags": ["Professional"],
+        "summary": "Authenticate Professional",
+        "description": "Authenticate an existing professional",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  }
+                }
               }
             }
           }
@@ -38,13 +81,10 @@
         "name": {
           "type": "string"
         },
-        "crp": {
+        "email": {
           "type": "string"
         },
-        "approach": {
-          "type": "string"
-        },
-        "contact": {
+        "password": {
           "type": "string"
         }
       }

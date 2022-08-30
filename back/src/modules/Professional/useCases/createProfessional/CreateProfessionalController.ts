@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 
-import { ICreateProfessionalDTO } from "../../dto/IProfessionalDTO";
+import { ICreateProfessionalDTO } from "../../dto/ICreateProfessionalDTO";
 import { CreateProfessionalUseCase } from "./CreateProfessionalUseCase";
 
 class CreateProfessionalController {

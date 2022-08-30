@@ -2,7 +2,7 @@ import { hash } from "bcrypt";
 import { AppError } from "../../../../errors/AppError";
 import { inject, injectable } from "tsyringe";
 
-import { ICreateProfessionalDTO } from "../../dto/IProfessionalDTO";
+import { ICreateProfessionalDTO } from "../../dto/ICreateProfessionalDTO";
 import { IProfessionalRepository } from "../../repositories/IProfessionalRepository";
 
 @injectable()
@@ -17,7 +17,7 @@ class CreateProfessionalUseCase {
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     );
 
-    if (!validEmail) throw new AppError("Invalid email");
+    if (!validEmail) throw new AppError("Invalid email", 422);
   }
 
   private isPasswordValid(password: string): void {
@@ -27,7 +27,7 @@ class CreateProfessionalUseCase {
   private async userAlreadyExists(email: string): Promise<void> {
     const userAlreadyExists = await this.repository.findByEmail(email);
 
-    if (userAlreadyExists) throw new AppError("User already exists");
+    if (userAlreadyExists) throw new AppError("User already exists", 409);
   }
 
   async execute(data: ICreateProfessionalDTO): Promise<void> {

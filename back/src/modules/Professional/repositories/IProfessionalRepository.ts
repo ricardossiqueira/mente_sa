@@ -1,5 +1,5 @@
-import { ICreateProfessionalDTO } from "../dto/IProfessionalDTO";
-import { Professional } from "../entities/Professional";
+import { Professional } from "@prisma/client";
+import { ICreateProfessionalDTO } from "../dto/ICreateProfessionalDTO";
 
 interface IProfessionalRepository {
   create(data: ICreateProfessionalDTO): Promise<void>;

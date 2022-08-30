@@ -1,7 +1,8 @@
 -- CreateTable
 CREATE TABLE "ProfessionalTokens" (
     "id" TEXT NOT NULL,
-    "token" TEXT NOT NULL,
+    "refreshToken" TEXT NOT NULL,
+    "expiresAt" TIMESTAMP(3) NOT NULL,
     "professionalId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -10,10 +11,7 @@ CREATE TABLE "ProfessionalTokens" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ProfessionalTokens_token_key" ON "ProfessionalTokens"("token");
-
--- CreateIndex
-CREATE UNIQUE INDEX "ProfessionalTokens_professionalId_key" ON "ProfessionalTokens"("professionalId");
+CREATE UNIQUE INDEX "ProfessionalTokens_refreshToken_key" ON "ProfessionalTokens"("refreshToken");
 
 -- AddForeignKey
 ALTER TABLE "ProfessionalTokens" ADD CONSTRAINT "ProfessionalTokens_professionalId_fkey" FOREIGN KEY ("professionalId") REFERENCES "Professional"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

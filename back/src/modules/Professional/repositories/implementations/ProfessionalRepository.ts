@@ -1,7 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient, Professional } from "@prisma/client";
 
-import { ICreateProfessionalDTO } from "../../dto/IProfessionalDTO";
-import { Professional } from "../../entities/Professional";
+import { ICreateProfessionalDTO } from "../../dto/ICreateProfessionalDTO";
 import { IProfessionalRepository } from "../IProfessionalRepository";
 
 class ProfessionalRepository implements IProfessionalRepository {

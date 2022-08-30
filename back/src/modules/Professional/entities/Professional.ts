@@ -1,4 +1,4 @@
-import { ICreateProfessionalDTO } from "../dto/IProfessionalDTO";
+import { ICreateProfessionalDTO } from "../dto/ICreateProfessionalDTO";
 
 class Professional {
   id?: string;

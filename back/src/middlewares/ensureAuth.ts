@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
-import { AppError } from "../errors/AppError";
 
+import { auth } from "../config/auth";
+import { AppError } from "../errors/AppError";
 import { ProfessionalRepository } from "../modules/Professional/repositories/implementations/ProfessionalRepository";
 
 type PayloadType = {
@@ -22,21 +23,16 @@ export async function ensureAuth(
   const [, token] = authHeader.split(" ");
 
   try {
-    let { sub: userId } = verify(
-      token,
-      "2554d6895fd6264fd2b47a3b0dd1027f"
-    ) as PayloadType;
+    let { sub: id } = verify(token, auth.token.secret) as PayloadType;
 
     const usersRepository = new ProfessionalRepository();
-    const user = await usersRepository.findById(userId);
+    const user = await usersRepository.findById(id);
 
     if (!user) {
       throw new AppError("User not found", 401);
     }
 
-    req.user = {
-      id: userId,
-    };
+    req.professional = { id };
 
     next();
   } catch {
