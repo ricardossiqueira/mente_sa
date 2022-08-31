@@ -19,15 +19,11 @@ import Link from "next/link";
 import { useMutation } from "react-query";
 import { api } from "../services/api";
 import { useRouter } from "next/router";
-import { AxiosError } from "axios";
+import { IRequestError } from "../shared/interfaces/IRequestError";
 
 type LoginFormDataType = {
   email: string;
   password: string;
-};
-
-type RequestErrorType = {
-  message: string;
 };
 
 const yupSignInFormSchema = yup.object().shape({
@@ -66,8 +62,8 @@ export default function SignIn() {
           },
         });
       },
-      onError: (error: AxiosError) => {
-        const { message } = error.response.data as RequestErrorType;
+      onError: (error: IRequestError) => {
+        const { message } = error.response.data;
         toast({
           title: "Erro ao efetuar login",
           description: message,
