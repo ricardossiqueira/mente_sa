@@ -17,7 +17,7 @@ export async function ensureAuth(
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    throw new AppError("Missing token", 401);
+    throw new AppError("Token faltando", 401);
   }
 
   const [, token] = authHeader.split(" ");
@@ -29,13 +29,13 @@ export async function ensureAuth(
     const user = await usersRepository.findById(id);
 
     if (!user) {
-      throw new AppError("User not found", 401);
+      throw new AppError("Usuário não encontrado", 401);
     }
 
     req.professional = { id };
 
     next();
   } catch {
-    throw new AppError("Invalid token", 401);
+    throw new AppError("Token inválido", 401);
   }
 }

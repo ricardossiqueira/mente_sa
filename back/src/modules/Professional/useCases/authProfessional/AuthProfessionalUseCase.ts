@@ -33,11 +33,11 @@ class AuthProfessionalUseCase {
   async execute({ email, password }: RequestType): Promise<ResponseType> {
     const professional = await this.repository.findByEmail(email);
 
-    if (!professional) throw new AppError("Email or password incorrect", 404);
+    if (!professional) throw new AppError("Email ou senha incorreto", 404);
 
     const passwordMatch = await compare(password, professional.password);
 
-    if (!passwordMatch) throw new AppError("Email or password incorrect", 404);
+    if (!passwordMatch) throw new AppError("Email ou senha incorreto", 404);
 
     const token = sign({}, auth.token.secret, {
       subject: professional.id,

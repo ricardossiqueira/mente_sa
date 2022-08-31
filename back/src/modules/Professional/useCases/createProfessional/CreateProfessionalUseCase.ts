@@ -17,17 +17,17 @@ class CreateProfessionalUseCase {
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     );
 
-    if (!validEmail) throw new AppError("Invalid email", 422);
+    if (!validEmail) throw new AppError("Email inválido", 422);
   }
 
   private isPasswordValid(password: string): void {
-    if (password.length < 8) throw new AppError("Invalid password");
+    if (password.length < 8) throw new AppError("Senha inválida");
   }
 
   private async userAlreadyExists(email: string): Promise<void> {
     const userAlreadyExists = await this.repository.findByEmail(email);
 
-    if (userAlreadyExists) throw new AppError("User already exists", 409);
+    if (userAlreadyExists) throw new AppError("Usuário já existe", 409);
   }
 
   async execute(data: ICreateProfessionalDTO): Promise<void> {
