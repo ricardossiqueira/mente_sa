@@ -46,7 +46,7 @@ class AuthProfessionalUseCase {
 
     const refreshToken = sign(
       { email: professional.email },
-      auth.token.secret,
+      auth.refreshToken.secret,
       {
         subject: professional.id,
         expiresIn: auth.refreshToken.expiresIn,
