@@ -4,16 +4,14 @@ export function Logo() {
   return (
     <>
       <Text
-        fontSize={["2xl", "3xl"]}
+        fontSize={["2xl", "4xl"]}
         fontWeight="bold"
         letterSpacing="tight"
         w="64"
+        color={"white"}
+        pl={"0.5rem"}
       >
-        dashboa
-        <Text as="span" color="pink.500">
-          .
-        </Text>
-        rd
+        Mente Sã
       </Text>
     </>
   );

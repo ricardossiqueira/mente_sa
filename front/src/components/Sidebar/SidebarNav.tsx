@@ -1,21 +1,32 @@
 import { Stack } from "@chakra-ui/react";
-import { RiContactsLine, RiDashboardLine } from "react-icons/ri";
+import { RiCalendarEventFill } from "react-icons/ri";
+import { TiHome } from "react-icons/ti";
+import { FaUser } from "react-icons/fa";
 
+import { Logo } from "./Logo";
 import { NavLink } from "./NavLink";
 import { NavSection } from "./NavSection";
+import { ProfileData } from "./ProfileData";
 
 export function SidebarNav() {
   return (
     <>
-      <Stack spacing="12" align="flex-start" backgroundColor={"purple"}>
+      <Stack
+        spacing="12"
+        backgroundColor={"purple.600"}
+        h={"100vh"}
+        pt={"0.5rem"}
+      >
+        <Logo />
+        <ProfileData name={"Dr. Estranho"} />
         <NavSection title="">
-          <NavLink icon={RiDashboardLine} href="/dashboard">
+          <NavLink icon={TiHome} href="/dashboard">
             Dashboard
           </NavLink>
-          <NavLink icon={RiContactsLine} href="/users">
+          <NavLink icon={FaUser} href="/pacients">
             Pacientes
           </NavLink>
-          <NavLink icon={RiContactsLine} href="/users">
+          <NavLink icon={RiCalendarEventFill} href="/sessions">
             Sessões
           </NavLink>
         </NavSection>

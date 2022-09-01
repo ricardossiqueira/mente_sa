@@ -1,3 +1,4 @@
+import { Box, Flex } from "@chakra-ui/react";
 import Link, { LinkProps } from "next/link";
 import { useRouter } from "next/router";
 import { cloneElement, ReactElement } from "react";
@@ -27,11 +28,18 @@ export function ActiveLink({
 
   return (
     <>
-      <Link {...rest}>
-        {cloneElement(children, {
-          color: isActive ? "pink.400" : "gray.50",
-        })}
-      </Link>
+      <Flex
+        backgroundColor={isActive ? "gray.50" : "purple.600"}
+        p={"0.5rem"}
+        borderRadius={"0 1rem 1rem  0"}
+      >
+        <Link {...rest}>
+          {cloneElement(children, {
+            color: isActive ? "purple.600" : "gray.50",
+            fontWeight: isActive ? "bold" : "normal",
+          })}
+        </Link>
+      </Flex>
     </>
   );
 }

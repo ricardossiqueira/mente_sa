@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -68,10 +67,9 @@ export default function CreateUser() {
       </Head>
       <main>
         <Box>
-          <Header />
-          <Flex w="100%" my={6} maxW={1480} mx="auto" px={[6, 8]}>
-            <Sidebar />
-          </Flex>
+          {/* <Header /> */}
+          <Sidebar />
+          <Flex w="100%" my={6} maxW={1480} mx="auto" px={[6, 8]}></Flex>
         </Box>
       </main>
     </>
