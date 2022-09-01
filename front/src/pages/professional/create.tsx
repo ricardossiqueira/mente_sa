@@ -1,15 +1,12 @@
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
   HStack,
   Spacer,
   Text,
   VStack,
   Link as ChakraLink,
-  FormControl,
-  FormErrorMessage,
   useToast,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -17,12 +14,13 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Head from "next/head";
 import { useRouter } from "next/router";
-
-import { Input } from "../../components/Form/Input";
 import Link from "next/link";
 import { useMutation } from "react-query";
+
+import { Input } from "../../components/Form/Input";
 import { api } from "../../services/api";
 import { IRequestError } from "../../shared/interfaces/IRequestError";
+import { Checkbox } from "../../components/Form/Checkbox";
 
 type SignInFormDataType = {
   name: string;
@@ -40,11 +38,14 @@ const yupSignInFormSchema = yup.object().shape({
     .string()
     .required("Senha obrigatória")
     .min(6, "Mínimo de 6 caracteres"),
-  password_confirmation: yup
+  passwordConfirm: yup
     .string()
     .required("Confirmação de senha obrigatória")
     .min(6, "Mínimo de 6 caracteres")
     .oneOf([yup.ref("password"), null], "As senhas devem ser iguais"),
+  termsOfService: yup
+    .boolean()
+    .required("Você deve aceitar os termos de serviço"),
 });
 
 export default function SignIn() {
@@ -54,7 +55,8 @@ export default function SignIn() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting, errors },
+    control,
+    formState: { isSubmitting, errors, isValidating },
   } = useForm({ resolver: yupResolver(yupSignInFormSchema) });
 
   const signIn = useMutation(
@@ -75,7 +77,7 @@ export default function SignIn() {
       onError: (error: IRequestError) => {
         const { message } = error.response.data;
         toast({
-          title: "Erro ao efetuar login",
+          title: "Erro ao criar conta",
           description: message,
           status: "error",
           isClosable: false,
@@ -139,34 +141,36 @@ export default function SignIn() {
                 {...register("password")}
               />
               <Input
-                name="password_confirmation"
+                name="passwordConfirm"
                 placeholder="Confirmar Senha"
                 type="password"
-                error={errors.password_confirmation}
-                {...register("password_confirmation")}
+                error={errors.passwordConfirm}
+                {...register("passwordConfirm")}
               />
               <HStack justifyContent={"space-between"} w={"100%"}>
                 <HStack>
                   <Checkbox
-                    name="terms"
-                    id="terms"
-                    mr={"0.2rem"}
+                    name="termsOfService"
+                    control={control}
+                    error={errors.termsOfService}
+                    rules={{ required: true }}
                     colorScheme={"purple"}
-                  />
-                  <Text fontSize={"sm"} color={"gray.400"}>
-                    Aceito os{" "}
-                    <Link href="">
-                      <ChakraLink color={"purple.400"} fontWeight={"bold"}>
-                        termos
-                      </ChakraLink>
-                    </Link>{" "}
-                    e{" "}
-                    <Link href="">
-                      <ChakraLink color={"purple.400"} fontWeight={"bold"}>
-                        políticas de privacidade
-                      </ChakraLink>
-                    </Link>
-                  </Text>
+                  >
+                    <Text fontSize={"sm"} color={"gray.400"}>
+                      Aceito os{" "}
+                      <Link href="">
+                        <ChakraLink color={"purple.400"} fontWeight={"bold"}>
+                          termos
+                        </ChakraLink>
+                      </Link>{" "}
+                      e{" "}
+                      <Link href="">
+                        <ChakraLink color={"purple.400"} fontWeight={"bold"}>
+                          políticas de privacidade
+                        </ChakraLink>
+                      </Link>
+                    </Text>
+                  </Checkbox>
                 </HStack>
               </HStack>
               <Button
@@ -174,7 +178,7 @@ export default function SignIn() {
                 type="submit"
                 width={"fit-content"}
                 colorScheme="purple"
-                isLoading={isSubmitting}
+                isLoading={isSubmitting || isValidating}
               >
                 Criar conta
               </Button>
