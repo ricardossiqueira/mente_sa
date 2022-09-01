@@ -10,6 +10,7 @@ import {
   Link as ChakraLink,
   FormControl,
   FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -21,7 +22,7 @@ import { Input } from "../../components/Form/Input";
 import Link from "next/link";
 import { useMutation } from "react-query";
 import { api } from "../../services/api";
-import { loadGetInitialProps } from "next/dist/shared/lib/utils";
+import { IRequestError } from "../../shared/interfaces/IRequestError";
 
 type SignInFormDataType = {
   name: string;
@@ -47,6 +48,9 @@ const yupSignInFormSchema = yup.object().shape({
 });
 
 export default function SignIn() {
+  const router = useRouter();
+  const toast = useToast();
+
   const {
     register,
     handleSubmit,
@@ -56,17 +60,32 @@ export default function SignIn() {
   const signIn = useMutation(
     async (signInData: SignInFormDataType) => {
       const response = await api.post("/professional", { ...signInData });
-      return response.data;
+      return response;
     },
     {
       onSuccess: () => {
-        console.log("success");
+        router.push("/");
+        toast({
+          title: "Conta criada com sucesso",
+          description: "Faça o login com a nova conta criada",
+          status: "success",
+          isClosable: false,
+        });
+      },
+      onError: (error: IRequestError) => {
+        const { message } = error.response.data;
+        toast({
+          title: "Erro ao efetuar login",
+          description: message,
+          status: "error",
+          isClosable: false,
+        });
       },
     }
   );
 
-  const handleSignIn: SubmitHandler<SignInFormDataType> = async (values) => {
-    await signIn.mutate(values);
+  const handleSignIn: SubmitHandler<SignInFormDataType> = (values) => {
+    signIn.mutate(values);
   };
 
   return (

@@ -85,11 +85,12 @@ api.interceptors.response.use(
           });
         });
       } else {
-        // if unauthorized error and not token invalid, logout
+        // unauthorized error and not token invalid error, logout
         destroyCookie(undefined, "mente_sa.token");
         destroyCookie(undefined, "mente_sa.refreshToken");
 
-        useRouter().push("/");
+        const router = useRouter();
+        router.push("/");
       }
     }
     // pass error to next error handler

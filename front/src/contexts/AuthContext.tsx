@@ -1,7 +1,8 @@
 import { AxiosResponse } from "axios";
 import { createContext, useEffect, useState } from "react";
 import { api } from "../services/api";
-import { setCookie, parseCookies } from "nookies";
+import { setCookie, parseCookies, destroyCookie } from "nookies";
+import { useRouter } from "next/router";
 
 type ResponsePayloadType = {
   name: string;
@@ -38,15 +39,23 @@ const AuthContext = createContext({} as AuthContextDataType);
 export function AuthProvider({ children }: AuthProviderPropsType) {
   const [user, setUser] = useState<User>();
   const isAuthenticated = !!user;
+  const router = useRouter();
 
   // fetch updated info on sign in
-  // useEffect(() => {
-  //   const { "mente_sa.token": token } = parseCookies();
+  useEffect(() => {
+    const { "mente_sa.token": token } = parseCookies();
 
-  //   if (token) {
-  //     fetch updated info
-  //   }
-  // }, []);
+    if (token) {
+      // fetch fresh user info
+    } else {
+      // unauthorized, logout
+      destroyCookie(undefined, "mente_sa.token");
+      destroyCookie(undefined, "mente_sa.refreshToken");
+
+      router.push("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function signIn(
     { email, password }: SignInCredentialsType,
