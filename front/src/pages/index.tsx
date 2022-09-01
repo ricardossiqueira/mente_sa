@@ -12,14 +12,15 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-import { Input } from "../components/Form/Input";
 import Head from "next/head";
 import Link from "next/link";
 import { useMutation } from "react-query";
-import { api } from "../services/api";
 import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+
+import { Input } from "../components/Form/Input";
 import { IRequestError } from "../shared/interfaces/IRequestError";
+import { AuthContext } from "../contexts/AuthContext";
 
 type LoginFormDataType = {
   email: string;
@@ -35,8 +36,11 @@ const yupSignInFormSchema = yup.object().shape({
 });
 
 export default function SignIn() {
+  const [rememberMe, setRememberMe] = useState(false);
+
   const toast = useToast();
   const router = useRouter();
+  const { signIn } = useContext(AuthContext);
 
   const {
     register,
@@ -46,20 +50,17 @@ export default function SignIn() {
 
   const login = useMutation(
     async (loginData: LoginFormDataType) => {
-      const response = await api.post("/professional/auth", { ...loginData });
-      return response.data;
+      const response = await signIn({ ...loginData });
+      return response;
     },
 
     {
       onSuccess: () => {
+        router.push("/professional");
         toast({
           title: "Login efetuado com sucesso",
-          description: "Redirecionando",
           status: "success",
           isClosable: false,
-          onCloseComplete: () => {
-            router.push("/professional/create");
-          },
         });
       },
       onError: (error: IRequestError) => {
@@ -78,6 +79,10 @@ export default function SignIn() {
     await login.mutateAsync(values);
   };
 
+  const handleRememberMe = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRememberMe(e.target.checked);
+  };
+
   return (
     <>
       <Head>
@@ -88,7 +93,7 @@ export default function SignIn() {
           <Flex
             as="form"
             w="100%"
-            maxW={360}
+            maxW={400}
             bg="whiteAlpha.900"
             padding={5}
             borderRadius={6}
@@ -129,6 +134,8 @@ export default function SignIn() {
                     name="remember"
                     mr={"0.2rem"}
                     colorScheme={"purple"}
+                    checked={rememberMe}
+                    onChange={handleRememberMe}
                   />
                   <Text fontSize={"sm"} color={"gray.400"}>
                     Lembrar usuário

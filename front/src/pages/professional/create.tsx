@@ -81,8 +81,8 @@ export default function SignIn() {
             w="100%"
             maxW={400}
             bg="whiteAlpha.900"
-            padding={8}
-            borderRadius={8}
+            padding={5}
+            borderRadius={6}
             flexDir="column"
             onSubmit={handleSubmit(handleSignIn)}
             boxShadow={"xl"}
