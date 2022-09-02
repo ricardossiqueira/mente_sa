@@ -4,6 +4,9 @@ import {
   Checkbox,
   Flex,
   HStack,
+  Icon,
+  IconButton,
+  InputRightElement,
   Spacer,
   Text,
   useToast,
@@ -21,6 +24,7 @@ import { useContext, useState } from "react";
 import { Input } from "../components/Form/Input";
 import { IRequestError } from "../shared/interfaces/IRequestError";
 import { AuthContext } from "../contexts/AuthContext";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 type LoginFormDataType = {
   email: string;
@@ -36,7 +40,8 @@ const yupSignInFormSchema = yup.object().shape({
 });
 
 export default function SignIn() {
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
+  const [passwordIsVisible, setPasswordIsVisible] = useState(false);
 
   const toast = useToast();
   const router = useRouter();
@@ -55,7 +60,7 @@ export default function SignIn() {
     },
     {
       onSuccess: () => {
-        router.push("/professional");
+        router.push("/dashboard");
         toast({
           title: "Login efetuado com sucesso",
           status: "success",
@@ -80,6 +85,10 @@ export default function SignIn() {
 
   const handleRememberMe = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRememberMe(e.target.checked);
+  };
+
+  const handleTogglePasswordVisibility = () => {
+    setPasswordIsVisible(!passwordIsVisible);
   };
 
   return (
@@ -123,10 +132,41 @@ export default function SignIn() {
               <Input
                 name="password"
                 placeholder="Senha"
-                type="password"
+                type={passwordIsVisible ? "text" : "password"}
                 error={errors.password}
                 {...register("password")}
+                inputElement={
+                  <InputRightElement>
+                    <IconButton
+                      mt={"0.5rem"}
+                      mr={"0.5rem"}
+                      variant={"unstyled"}
+                      aria-label="mostrar/ocultar senha"
+                      onClick={handleTogglePasswordVisibility}
+                      fontSize={"lg"}
+                      pt={"0.5rem"}
+                      icon={
+                        passwordIsVisible ? (
+                          <Icon
+                            w={5}
+                            h={5}
+                            as={AiFillEye}
+                            color={"blackAlpha.500"}
+                          />
+                        ) : (
+                          <Icon
+                            w={5}
+                            h={5}
+                            as={AiFillEyeInvisible}
+                            color={"blackAlpha.500"}
+                          />
+                        )
+                      }
+                    />
+                  </InputRightElement>
+                }
               />
+
               <HStack justifyContent={"space-between"} w={"100%"}>
                 <HStack>
                   <Checkbox
@@ -134,7 +174,8 @@ export default function SignIn() {
                     mr={"0.2rem"}
                     colorScheme={"purple"}
                     checked={rememberMe}
-                    onChange={handleRememberMe}
+                    onChange={() => {}}
+                    defaultChecked={true}
                   />
                   <Text fontSize={"sm"} color={"gray.400"}>
                     Lembrar usuário
