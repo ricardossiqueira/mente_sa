@@ -4,6 +4,7 @@ import { inject, injectable } from "tsyringe";
 
 import { ICreateProfessionalDTO } from "../../dto/ICreateProfessionalDTO";
 import { IProfessionalRepository } from "../../repositories/IProfessionalRepository";
+import { isEmailValid } from "../../../../shared/functions/isEmailValid";
 
 @injectable()
 class CreateProfessionalUseCase {
@@ -11,14 +12,6 @@ class CreateProfessionalUseCase {
     @inject("ProfessionalRepository")
     private repository: IProfessionalRepository
   ) {}
-
-  private isEmailValid(email: string): void {
-    const validEmail = email.match(
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-    );
-
-    if (!validEmail) throw new AppError("Email inválido", 422);
-  }
 
   private isPasswordValid(password: string): void {
     if (password.length < 8) throw new AppError("Senha inválida");
@@ -31,7 +24,7 @@ class CreateProfessionalUseCase {
   }
 
   async execute(data: ICreateProfessionalDTO): Promise<void> {
-    this.isEmailValid(data.email);
+    isEmailValid(data.email);
     this.isPasswordValid(data.password);
     await this.userAlreadyExists(data.email);
 
