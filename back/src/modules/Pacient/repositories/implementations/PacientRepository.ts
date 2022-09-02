@@ -11,6 +11,9 @@ class PacientRepository implements IPacientRepository {
   constructor() {
     this.repository = new PrismaClient().pacient;
   }
+  async list(): Promise<Pacient[]> {
+    return await this.repository.findMany();
+  }
 
   async findByEmail(email: string): Promise<Pacient | null> {
     return await this.repository.findFirst({ where: { email } });
