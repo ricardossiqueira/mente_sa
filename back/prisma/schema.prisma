@@ -12,16 +12,17 @@ datasource db {
 }
 
 model Professional {
-  id                 String               @id @default(uuid())
-  name               String
-  email              String               @unique
-  password           String
-  crp                String?
-  approach           String?
-  contact            String?
-  professionalTokens ProfessionalTokens[]
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
+  id                   String               @id @default(uuid())
+  name                 String
+  email                String               @unique
+  password             String
+  crp                  String?
+  approach             String?
+  contact              String?
+  professionalTokens   ProfessionalTokens[]
+  professionalSessions Session[]
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
 }
 
 model ProfessionalTokens {
@@ -32,4 +33,47 @@ model ProfessionalTokens {
   professionalId String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+}
+
+model Session {
+  id              String           @id @default(uuid())
+  professionalId  String           @unique
+  professional    Professional     @relation(fields: [professionalId], references: [id])
+  pacientId       String           @unique
+  pacient         Pacient          @relation(fields: [pacientId], references: [id])
+  scheduleDate    DateTime
+  status          String
+  sessionTheme    String
+  scheduleType    String
+  duration        Int // in minutes
+  sessionType     String
+  observation     String
+  pacientSessions PacientSession[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model Pacient {
+  id              String           @id @default(uuid())
+  name            String
+  email           String           @unique
+  cpf             String           @unique
+  gender          String
+  birthDate       DateTime
+  address         String
+  telephone       String
+  sessions        Session[]
+  pacientSessions PacientSession[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model PacientSession {
+  id        String   @id @default(uuid())
+  pacientId String   @unique
+  pacient   Pacient  @relation(fields: [pacientId], references: [id])
+  sessionId String   @unique
+  sessions  Session  @relation(fields: [sessionId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
