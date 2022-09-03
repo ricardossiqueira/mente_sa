@@ -9,8 +9,8 @@
     "/professional": {
       "post": {
         "tags": ["Professional"],
-        "summary": "Create Professional",
-        "description": "Create a new professional",
+        "summary": "Create new professional",
+        "description": "Creates a new professional",
         "requestBody": {
           "content": {
             "application/json": {
@@ -39,11 +39,69 @@
         }
       }
     },
-    "/professional/auth": {
+    "/session": {
       "post": {
-        "tags": ["Professional"],
+        "tags": ["Session"],
+        "summary": "Create session",
+        "description": "Creates a new session",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "securitySchemes": {
+          "bearerAuth": {
+            "type": "http",
+            "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "pacientId": {
+                      "type": "string"
+                    },
+                    "scheduleDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "sessionTheme": {
+                      "type": "string"
+                    },
+                    "sessionType": {
+                      "type": "string"
+                    },
+                    "duration": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/sessions": {
+      "post": {
+        "tags": ["Authentication"],
         "summary": "Authenticate Professional",
         "description": "Authenticate an existing professional",
+
         "requestBody": {
           "content": {
             "application/json": {
@@ -64,8 +122,179 @@
           }
         },
         "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      },
+                      "refreshToken": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/auth/refresh-token": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Generates a new pair of tokens",
+        "description": "Generates a new pair of tokens",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "refreshToken": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      },
+                      "refreshToken": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/pacient": {
+      "post": {
+        "tags": ["Pacient"],
+        "summary": "Create pacient",
+        "description": "Creates a new pacient",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "securitySchemes": {
+          "bearerAuth": {
+            "type": "http",
+            "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "cpf": {
+                      "type": "string"
+                    },
+                    "gender": {
+                      "type": "string"
+                    },
+                    "bithDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "telephone": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
           "201": {
             "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Pacient"],
+        "summary": "List pacients",
+        "description": "List all professional pacients",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "securitySchemes": {
+          "bearerAuth": {
+            "type": "http",
+            "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "500": {
             "description": "Internal Server Error"
