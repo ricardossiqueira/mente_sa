@@ -42,12 +42,12 @@ model Session {
   pacientId       String           @unique
   pacient         Pacient          @relation(fields: [pacientId], references: [id])
   scheduleDate    DateTime
-  status          String
+  status          String?
   sessionTheme    String
-  scheduleType    String
+  scheduleType    String?
   duration        Int // in minutes
   sessionType     String
-  observation     String
+  observation     String?
   pacientSessions PacientSession[]
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt

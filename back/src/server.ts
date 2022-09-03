@@ -12,6 +12,11 @@ import swaggerDocument from "./swagger.json";
 import { router } from "./routes";
 import { traverseErrors } from "./middlewares/traverseErrors";
 
+// forces kill some prisma process so ts-node-dev can autoreload
+process.on("SIGTERM", () => {
+  process.exit();
+});
+
 const PORT = process.env.PORT || 3333;
 
 const app = express();

@@ -5,6 +5,7 @@ import { ICreatePacientDTO } from "../../dto/ICreatePacientDTO";
 import { isEmailValid } from "../../../../shared/functions/isEmailValid";
 import { isTelephoneValid } from "../../../../shared/functions/isTelephoneValid";
 import { AppError } from "../../../../errors/AppError";
+import { isCPFValid } from "../../../../shared/functions/isCPFValid";
 
 @injectable()
 class CreatePacientUseCase {
@@ -14,16 +15,26 @@ class CreatePacientUseCase {
   ) {}
 
   async execute(data: ICreatePacientDTO): Promise<void> {
-    const { email, telephone } = data;
+    const { email, telephone, cpf } = data;
     isEmailValid(email);
+    isCPFValid(cpf);
     isTelephoneValid(telephone);
 
-    const pacientAlreadyExists = await this.pacientRepository.findByEmail(
+    const emailAlreadyRegistered = await this.pacientRepository.findByEmail(
       email
     );
 
-    if (pacientAlreadyExists) {
-      throw new AppError("Pacient already exists!", 409);
+    if (emailAlreadyRegistered) {
+      throw new AppError(
+        "Já existe um paciente cadaastrado com esse email",
+        409
+      );
+    }
+
+    const cpfAlreadyRegistered = await this.pacientRepository.findByCPF(cpf);
+
+    if (cpfAlreadyRegistered) {
+      throw new AppError("Já existe um paciente cadastrado com esse CPF", 409);
     }
 
     await this.pacientRepository.create(data);

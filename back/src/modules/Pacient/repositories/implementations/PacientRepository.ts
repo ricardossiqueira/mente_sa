@@ -11,6 +11,10 @@ class PacientRepository implements IPacientRepository {
   constructor() {
     this.repository = new PrismaClient().pacient;
   }
+  async findByCPF(cpf: string): Promise<Pacient | null> {
+    return await this.repository.findFirst({ where: { cpf } });
+  }
+
   async list(): Promise<Pacient[]> {
     return await this.repository.findMany();
   }

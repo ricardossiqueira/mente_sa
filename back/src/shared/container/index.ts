@@ -9,6 +9,9 @@ import { ProfessionalTokensRepository } from "../../modules/Professional/reposit
 import { IPacientRepository } from "../../modules/Pacient/repositories/IPacientRepository";
 import { PacientRepository } from "../../modules/Pacient/repositories/implementations/PacientRepository";
 
+import { ISessionRepository } from "../../modules/Session/repositories/ISessionRepository";
+import { SessionRepository } from "../../modules/Session/repositories/implementations/SessionRepository";
+
 container.registerSingleton<IProfessionalRepository>(
   "ProfessionalRepository",
   ProfessionalRepository
@@ -22,4 +25,9 @@ container.registerSingleton<IProfessionalTokensRepository>(
 container.registerSingleton<IPacientRepository>(
   "PacientRepository",
   PacientRepository
+);
+
+container.registerSingleton<ISessionRepository>(
+  "SessionRepository",
+  SessionRepository
 );

@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Session" ALTER COLUMN "status" DROP NOT NULL,
+ALTER COLUMN "scheduleType" DROP NOT NULL,
+ALTER COLUMN "observation" DROP NOT NULL;
