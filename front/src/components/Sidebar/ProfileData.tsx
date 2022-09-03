@@ -1,14 +1,17 @@
 import { Box, HStack, Icon, IconButton, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { destroyCookie } from "nookies";
+import { useContext } from "react";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 
-type PropsType = {
-  name: string;
-};
+import { AuthContext } from "../../contexts/AuthContext";
 
-function ProfileData({ name }: PropsType) {
+function ProfileData() {
   const router = useRouter();
+
+  const {
+    user: { name },
+  } = useContext(AuthContext);
 
   function handleLogout() {
     destroyCookie(undefined, "mente_sa.token");

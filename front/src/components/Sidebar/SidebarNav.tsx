@@ -18,7 +18,7 @@ export function SidebarNav() {
         pt={"0.5rem"}
       >
         <Logo />
-        <ProfileData name={"Dr. Estranho"} />
+        <ProfileData />
         <NavSection title="">
           <NavLink icon={TiHome} href="/dashboard">
             Dashboard

@@ -1,19 +1,24 @@
 import { AxiosResponse } from "axios";
 import { createContext, useEffect, useState } from "react";
-import { api } from "../services/api";
-import { setCookie, parseCookies, destroyCookie } from "nookies";
 import { useRouter } from "next/router";
+import { setCookie, parseCookies, destroyCookie } from "nookies";
+
+import { api } from "../services/api";
 
 type ResponsePayloadType = {
-  name: string;
-  email: string;
   token: string;
   refreshToken: string;
 };
 
 type User = {
-  email: string;
+  id: string;
   name: string;
+  email: string;
+  crp: string | null;
+  approach: string | null;
+  contact: string | null;
+  createdAt: string;
+  updatedAt: string;
 };
 
 type SignInCredentialsType = {
@@ -37,7 +42,16 @@ type AuthProviderPropsType = {
 const AuthContext = createContext({} as AuthContextDataType);
 
 export function AuthProvider({ children }: AuthProviderPropsType) {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User>({
+    approach: null,
+    contact: null,
+    crp: null,
+    createdAt: "",
+    email: "",
+    id: "",
+    name: "",
+    updatedAt: "",
+  });
   const isAuthenticated = !!user;
   const router = useRouter();
 
@@ -46,7 +60,9 @@ export function AuthProvider({ children }: AuthProviderPropsType) {
     const { "mente_sa.token": token } = parseCookies();
 
     if (token) {
-      // fetch fresh user info
+      api.get("/auth/me").then((res: AxiosResponse<User>) => {
+        setUser(res.data);
+      });
     } else {
       // unauthorized, logout
       destroyCookie(undefined, "mente_sa.token");
@@ -67,7 +83,7 @@ export function AuthProvider({ children }: AuthProviderPropsType) {
     });
 
     const {
-      data: { name, email: _, token, refreshToken },
+      data: { token, refreshToken },
     } = response;
 
     // save refresh token to cookies
@@ -86,7 +102,7 @@ export function AuthProvider({ children }: AuthProviderPropsType) {
       });
 
     // set user info to state proveider
-    setUser({ email, name });
+    // setUser({ email });
 
     // re-set axios token, so it can be used in other requests
     api.defaults.headers["Authorization"] = `Bearer ${token}`;
