@@ -15,8 +15,6 @@ type RequestType = {
 };
 
 type ResponseType = {
-  name: string;
-  email: string;
   token: string;
   refreshToken: string;
 };
@@ -64,8 +62,6 @@ class AuthProfessionalUseCase {
     });
 
     return {
-      name: professional.name,
-      email: professional.email,
       token,
       refreshToken,
     };
