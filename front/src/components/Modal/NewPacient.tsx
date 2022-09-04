@@ -24,9 +24,11 @@ import dayjs from "dayjs";
 
 import { Input } from "../Form/Input";
 import { Select } from "../Form/Select";
-import { useMutation } from "react-query";
+import { QueryObserverResult, useMutation } from "react-query";
 import { api } from "../../services/api";
 import { IRequestError } from "../../shared/interfaces/IRequestError";
+import { AxiosResponse } from "axios";
+import { IListPacientDTO } from "../../hooks/useListPacients";
 
 type CreatePacientDTO = {
   name: string;
@@ -67,7 +69,11 @@ const yupNewPacientFormSchema = yup.object().shape({
     .min(20, "Endereço muito curto"),
 });
 
-export function NewPacientModal() {
+type NewPacientModalProps = {
+  refetch: () => {};
+};
+
+export function NewPacientModal({ refetch }: NewPacientModalProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
@@ -92,6 +98,7 @@ export function NewPacientModal() {
           title: "Paciente cadastrado com sucesso",
           status: "success",
         });
+        refetch();
         reset();
         onClose();
       },

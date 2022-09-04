@@ -69,7 +69,7 @@ export default function Pacients() {
                       }
                     />
                   </Wrap>
-                  <NewPacientModal />
+                  <NewPacientModal refetch={refetch} />
                 </Flex>
               </Wrap>
               <Wrap mt={"2rem"}>
@@ -87,12 +87,24 @@ export default function Pacients() {
                       >
                         <Thead bg={"purple.600"} borderRadius={"8px"}>
                           <Tr>
-                            <Th color={"whiteAlpha.900"}>Nome</Th>
-                            <Th color={"whiteAlpha.900"}>Endereço</Th>
-                            <Th color={"whiteAlpha.900"}>E-mail</Th>
-                            <Th color={"whiteAlpha.900"}>Gênero</Th>
-                            <Th color={"whiteAlpha.900"}>Endereço</Th>
-                            <Th color={"whiteAlpha.900"}>Ações</Th>
+                            <Th color={"whiteAlpha.900"} fontSize={"md"}>
+                              Nome
+                            </Th>
+                            <Th color={"whiteAlpha.900"} fontSize={"md"}>
+                              Endereço
+                            </Th>
+                            <Th color={"whiteAlpha.900"} fontSize={"md"}>
+                              E-mail
+                            </Th>
+                            <Th color={"whiteAlpha.900"} fontSize={"md"}>
+                              Gênero
+                            </Th>
+                            <Th color={"whiteAlpha.900"} fontSize={"md"}>
+                              Endereço
+                            </Th>
+                            <Th color={"whiteAlpha.900"} fontSize={"md"}>
+                              Ações
+                            </Th>
                           </Tr>
                         </Thead>
                         <Tbody>
