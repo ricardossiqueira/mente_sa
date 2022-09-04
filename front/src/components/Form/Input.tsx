@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { forwardRef, ForwardRefRenderFunction } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
+import ReactInputMask from "react-input-mask";
 
 interface InputProps extends ChakraInputProps {
   name: string;
@@ -36,6 +37,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
           borderColor="blackAlpha.500"
           borderWidth={"1px"}
           _hover={{ bg: "whiteAlpha.400" }}
+          backgroundColor={"transparent"}
           size="lg"
           ref={ref}
           {...rest}
